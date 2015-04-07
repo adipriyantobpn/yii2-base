@@ -55,7 +55,7 @@ trait ActiveRecordTrait
      */
     public function getStatusList($false = 'Disable', $true = 'Enable')
     {
-        return Enum::boolList($false, $true);
+        return Enum::boolList(\Yii::t('adip/country', $false), \Yii::t('adip/country', $true));
     }
 
     /**
@@ -68,7 +68,7 @@ trait ActiveRecordTrait
      */
     public function getStatusLabel($status_id, $false = 'Disable', $true = 'Enable')
     {
-        $status = $this->seeStatusList($false, $true);
+        $status = $this->getStatusList($false, $true);
         return $status[$status_id];
     }
 }
