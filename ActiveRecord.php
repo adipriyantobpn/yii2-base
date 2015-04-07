@@ -8,8 +8,10 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
-class ActiveRecord extends \yii\db\ActiveRecord
+class ActiveRecord extends \yii\db\ActiveRecord implements ActiveRecordInterface
 {
+    use ActiveRecordTrait;
+
     /**
      * Automatically fills created_at and updated_at attributes with the current timestamp
      * Those two columns must have datetime type
