@@ -53,16 +53,20 @@ class ActiveRecord extends \yii\db\ActiveRecord implements ActiveRecordInterface
      * @param array $addItem key-value array
      * @return array mapping of id & name attribute
      */
-    public static function getDropdownProvider($nameAttribute = null, $filter = null, $orderBy = null, $addItem = [])
+    public static function getDropdownProvider($nameAttribute = null, $filter = null, $orderBy = null, $addItem = [], $kartikDepDropFormat = false)
     {
         $className = self::className();
         $class = new $className;
-        $model = $filter == null
-            ? $className::find()->orderBy(($orderBy == null) ? $class->getNameAttribute() : $orderBy)->all()
-            : $className::findAll($filter);
         $nameAttribute = $nameAttribute == null
             ? $class->getNameAttribute()
             : $nameAttribute;
-        return ArrayHelper::merge(ArrayHelper::map($model, 'id', $nameAttribute), $addItem);
+        $model = $filter == null
+            ? $className::find()->orderBy(($orderBy == null) ? $nameAttribute : $orderBy)->asArray()->all()
+            : $className::find()->where($filter)->orderBy(($orderBy == null) ? $nameAttribute : $orderBy)->asArray()->all();
+        if ($kartikDepDropFormat) {
+            return $model;
+        } else {
+            return ArrayHelper::merge(ArrayHelper::map($model, 'id', $nameAttribute), $addItem);
+        }
     }
 }
