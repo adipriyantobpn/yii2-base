@@ -1,6 +1,6 @@
-KLOG Country Manager
+Yii2 Base Components
 ====================
-Country Manager for KLOG WebApp (based on Yii2 Extension)
+Base Components for Yii2
 
 Installation
 ------------
@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist adipriyantobpn/klog-country "*"
+php composer.phar require --prefer-dist adipriyantobpn/yii2-base "*"
 ```
 
 or add
 
 ```
-"adipriyantobpn/klog-country": "*"
+"adipriyantobpn/yii2-base": "*"
 ```
 
 to the require section of your `composer.json` file.
@@ -28,4 +28,4 @@ Usage
 Once the extension is installed, simply use it in your code by  :
 
 ```php
-<?= \adipriyantobpn\klog\country\AutoloadExample::widget(); ?>```
+<?= \adipriyantobpn\base\AutoloadExample::widget(); ?>```
