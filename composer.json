@@ -1,8 +1,8 @@
 {
-    "name": "adipriyantobpn/klog-country",
-    "description": "Country Manager for KLOG WebApp (based on Yii2 Extension)",
+    "name": "adipriyantobpn/yii2-base",
+    "description": "Base Components for Yii2",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension","klog","country"],
+    "keywords": ["yii2","extension"],
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "adipriyantobpn\\klog\\country\\": ""
+            "adipriyantobpn\\base\\": ""
         }
     }
 }
