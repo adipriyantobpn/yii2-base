@@ -1,6 +1,6 @@
 <?php
 
-namespace adipriyantobpn\klog\country\components;
+namespace adipriyantobpn\base\components;
 
 
 class Etc
