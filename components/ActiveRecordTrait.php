@@ -39,7 +39,7 @@ trait ActiveRecordTrait
 
         if ($this->save(false)) {
             $column = $this->getNameAttribute();
-            \Yii::$app->session->setFlash('success', \Yii::t('adip/country', '{name} status has been successfully set as {status}', [
+            \Yii::$app->session->setFlash('success', \Yii::t('adip', '{name} status has been successfully set as {status}', [
                 'name' => $this->$column,
                 'status' => $status
             ]));
@@ -55,7 +55,7 @@ trait ActiveRecordTrait
      */
     public function getStatusList($false = 'Disable', $true = 'Enable')
     {
-        return Enum::boolList(\Yii::t('adip/country', $false), \Yii::t('adip/country', $true));
+        return Enum::boolList(\Yii::t('adip', $false), \Yii::t('adip', $true));
     }
 
     /**
