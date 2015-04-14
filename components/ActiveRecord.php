@@ -3,14 +3,19 @@
 namespace adipriyantobpn\base\components;
 
 
+use yii\base\UnknownPropertyException;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 class ActiveRecord extends \yii\db\ActiveRecord implements ActiveRecordInterface
 {
     use ActiveRecordTrait;
+
+    public $generateGUID = true;
+    public $idAttribute = 'id';
 
     /**
      * Automatically fills created_at and updated_at attributes with the current timestamp
@@ -67,6 +72,33 @@ class ActiveRecord extends \yii\db\ActiveRecord implements ActiveRecordInterface
             return $model;
         } else {
             return ArrayHelper::merge(ArrayHelper::map($model, 'id', $nameAttribute), $addItem);
+        }
+    }
+
+    /**
+     * Set GUID before insert data
+     *
+     * @param bool $insert Has true value when inserting new data, or false when updating data
+     * @return bool Whether the insertion or updating should continue
+     * @throws UnknownPropertyException Occurs when id attribute is not exist
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            \Yii::trace('Insert data = ' . VarDumper::dumpAsString($insert));
+            if ($insert == true && $this->hasAttribute($this->idAttribute) == false) {
+                throw new UnknownPropertyException(\Yii::t('adip/base', 'There is no attribute "{idAttribute}" found in "{class}"', [
+                    'idAttribute' => $this->idAttribute,
+                    'class' => $this->className(),
+                ]));
+            }
+            if ($insert == true && $this->generateGUID == true && $this->hasAttribute($this->idAttribute)) {
+                $this->setAttribute($this->idAttribute, Etc::getGUID());
+                \Yii::trace('Automatically set GUID "' . $this->getAttribute($this->idAttribute) . '" to idAttribute "' . $this->idAttribute . '" when insert data = ' . VarDumper::dumpAsString($insert));
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }
