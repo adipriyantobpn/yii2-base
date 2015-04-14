@@ -87,7 +87,7 @@ class ActiveRecord extends \yii\db\ActiveRecord implements ActiveRecordInterface
         if (parent::beforeSave($insert)) {
             \Yii::trace('Insert data = ' . VarDumper::dumpAsString($insert));
             if ($insert == true && $this->hasAttribute($this->idAttribute) == false) {
-                throw new UnknownPropertyException(\Yii::t('adip/base', 'There is no attribute "{idAttribute}" found in "{class}"', [
+                throw new UnknownPropertyException(\Yii::t('adip', 'There is no attribute "{idAttribute}" found in "{class}"', [
                     'idAttribute' => $this->idAttribute,
                     'class' => $this->className(),
                 ]));
