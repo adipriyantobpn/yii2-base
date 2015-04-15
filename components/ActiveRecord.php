@@ -49,29 +49,33 @@ class ActiveRecord extends \yii\db\ActiveRecord implements ActiveRecordInterface
     }
 
 
-
     /**
      * Return data list which is populated from database for dropdown provider
      *
-     * @param null|string $nameAttribute
-     * @param null|array $filter array with column_name-value format
      * @param array $addItem key-value array
+     * @param null|string $nameAttr
+     * @param null|array $filter array with column_name-value format
+     * @param null $orderBy
+     * @param null $groupAttr
+     * @param array $select
+     * @param array $with
+     * @param bool $kartikDepDropFormat
      * @return array mapping of id & name attribute
      */
-    public static function getDropdownProvider($nameAttribute = null, $filter = null, $orderBy = null, $addItem = [], $kartikDepDropFormat = false)
+    public static function getDropdownProvider($addItem = [], $nameAttr = null, $filter = null, $orderBy = null, $groupAttr = null, $select = [], $with = [], $kartikDepDropFormat = false)
     {
         $className = self::className();
         $class = new $className;
-        $nameAttribute = $nameAttribute == null
+        $nameAttr = $nameAttr == null
             ? $class->getNameAttribute()
-            : $nameAttribute;
+            : $nameAttr;
         $model = $filter == null
-            ? $className::find()->orderBy(($orderBy == null) ? $nameAttribute : $orderBy)->asArray()->all()
-            : $className::find()->where($filter)->orderBy(($orderBy == null) ? $nameAttribute : $orderBy)->asArray()->all();
+            ? $className::find()->select($select)->joinWith($with)->orderBy(($orderBy == null) ? null : $orderBy)->asArray()->all()
+            : $className::find()->select($select)->joinWith($with)->where($filter)->orderBy(($orderBy == null) ? null : $orderBy)->asArray()->all();
         if ($kartikDepDropFormat) {
             return $model;
         } else {
-            return ArrayHelper::merge(ArrayHelper::map($model, 'id', $nameAttribute), $addItem);
+            return ArrayHelper::merge($addItem, ArrayHelper::map($model, 'id', $nameAttr, $groupAttr));
         }
     }
 
