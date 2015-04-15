@@ -49,13 +49,17 @@ trait ActiveRecordTrait
     /**
      * Return status list for dropdown provider
      *
+     * @param bool $showTrueFirst Optional : whether show true first, instead of false
      * @param string $false Optional : false label
      * @param string $true Optional : true label
      * @return array Mapping of id & label
      */
-    public function getStatusList($false = 'Disable', $true = 'Enable')
+    public function getStatusList($showTrueFirst = true, $false = 'Disable', $true = 'Enable')
     {
-        return Enum::boolList(\Yii::t('adip', $false), \Yii::t('adip', $true));
+        $list = Enum::boolList(\Yii::t('adip', $false), \Yii::t('adip', $true));
+        return ($showTrueFirst === true)
+            ? array_reverse($list, true)
+            : $list;
     }
 
     /**
